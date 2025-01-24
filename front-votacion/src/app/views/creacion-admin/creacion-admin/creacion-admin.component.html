@@ -1,0 +1,125 @@
+<app-nav></app-nav>
+<div class="container py-3">
+  <div class="abs-center">
+    <div class="card shadow border-0">
+      <div class="card-body">
+        <h2 class="text-center fs-2 text-primary mb-4 ">{{ titulo }}</h2>
+        <form class="row g-3" #adminForm="ngForm" (ngSubmit)="saveAdmin(adminForm)">
+          <!-- Tipo de documento -->
+          <div class="col-md-6">
+            <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+            <select id="tipoDocumento" class="form-select" name="id_tipo_documento"
+              [(ngModel)]="admin.id_tipo_documento" required #tipoDocumento="ngModel">
+              <option [value]="null" disabled>Seleccione un tipo de documento</option>
+              <option *ngFor="let doc of documentos" [value]="doc.tipo_documento">{{ doc.tipo_documento }}</option>
+            </select>
+            <div *ngIf="tipoDocumento.invalid && tipoDocumento.touched" class="text-danger">
+              El tipo de documento es obligatorio.
+            </div>
+          </div>
+
+          <!-- Número de documento -->
+          <div class="col-md-6">
+            <label for="nroDocumento" class="form-label">Número de Documento</label>
+            <input id="nroDocumento" type="number" class="form-control" name="nro_documento"
+              [(ngModel)]="admin.nro_documento" required #nroDocumento="ngModel" />
+            <div *ngIf="nroDocumento.invalid && nroDocumento.touched" class="text-danger">
+              El número de documento es obligatorio.
+            </div>
+          </div>
+
+          <!-- Nombre -->
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input id="nombre" type="text" class="form-control" name="nombre" [(ngModel)]="admin.nombre" required
+              #nombre="ngModel" />
+            <div *ngIf="nombre.invalid && nombre.touched" class="text-danger">
+              El nombre es obligatorio.
+            </div>
+          </div>
+
+          <!-- Correo -->
+          <div class="col-md-6">
+            <label for="correo" class="form-label">Correo</label>
+            <input id="correo" type="email" class="form-control" name="correo" [(ngModel)]="admin.correo" required
+              #correo="ngModel" />
+            <div *ngIf="correo.invalid && correo.touched" class="text-danger">
+              El correo es obligatorio y debe ser válido.
+            </div>
+          </div>
+
+          <!-- Contraseña -->
+          <div class="col-md-6">
+            <label for="password" class="form-label">Contraseña</label>
+            <input id="password" type="password" class="form-control" name="password" [(ngModel)]="admin.password"
+              pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\[\]{};':\\|,.\/?]).{8,}$" #password="ngModel" />
+            <div *ngIf="password.invalid && password.touched" class="text-danger">
+              La contraseña debe tener al menos 8 caracteres, una letra mayúscula, un número y un carácter especial.
+            </div>
+          </div>
+
+          <!-- Teléfono -->
+          <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input id="telefono" type="tel" class="form-control" name="telefono" [(ngModel)]="admin.telefono" required
+              pattern="[0-9]{7,10}" #telefono="ngModel" />
+            <div *ngIf="telefono.invalid && telefono.touched" class="text-danger">
+              El teléfono debe tener entre 7 y 10 dígitos.
+            </div>
+          </div>
+          <!-- Conjunto -->
+          <div class="col-md-6 mb-3">
+            <label for="idConjunto" class="form-label">Conjunto</label>
+            <div class="dropdown">
+              <button class="btn btn-primary w-100 dropdown-toggle" type="button" id="dropdownConjunto"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Seleccionar conjunto
+              </button>
+              <ul class="dropdown-menu w-100" aria-labelledby="dropdownConjunto">
+                <li *ngFor="let option of conjuntos" class="px-3 py-2">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" [id]="'option-' + option.id_conjunto"
+                      [checked]="isSelected(option)" (change)="toggleSelection(option)" [disabled]="isEditMode" />
+                    <label class="form-check-label" [for]="'option-' + option.id_conjunto" style="white-space: nowrap;">
+                      {{ option.nombre }}
+                    </label>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div *ngIf="!selectedOptions.length && adminForm?.submitted" class="text-danger mt-1">
+              El conjunto es obligatorio.
+            </div>
+          </div>
+
+
+          <!-- Rol -->
+          <div class="col-md-6">
+            <label for="idRol" class="form-label">Rol</label>
+            <select id="idRol" class="form-select" name="id_rol" [(ngModel)]="admin.id_rol" required #idRol="ngModel">
+              <option [value]="null" disabled>Seleccione un rol</option>
+              <option *ngFor="let rol of roles" [value]="rol.id_rol">{{ rol.tipo_rol }}</option>
+            </select>
+            <div *ngIf="idRol.invalid && idRol.touched" class="text-danger">
+              El rol es obligatorio.
+            </div>
+          </div>
+
+          <!-- Botones -->
+          <div class="row mt-3  ">
+            <div class="col">
+              <button type="submit" class="btn btn-primary  me-2 w-100 w-md-auto" [disabled]="adminForm.invalid">{{
+                titulo }}</button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-secondary w-100 w-md-auto" (click)="volver()">Volver</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,64 @@
+<app-nav></app-nav>
+<div class="container py-3">
+  <div class="abs-center">
+    <div class="card shadow border-0">
+      <div class="card-body">
+        <h2 class="text-center fs-2 text-primary mb-4">Editar usuario</h2>
+        <form class="row g-3" #usuarioForm="ngForm" (ngSubmit)="saveUsuario(usuarioForm)">
+          <!-- Nombre -->
+          <div class="col-12">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" id="nombre" class="form-control" [(ngModel)]="usuarios.nombre" name="nombre" required>
+            <div *ngIf="usuarioForm.controls['nombre']?.invalid && usuarioForm.controls['nombre']?.touched"
+              class="text-danger">
+              Nombre es obligatorio.
+            </div>
+          </div>
+
+          <!-- Apartamento -->
+          <div class="col-12">
+            <label for="apartamento" class="form-label">Apartamento</label>
+            <input type="text" id="apartamento" class="form-control" [(ngModel)]="usuarios.apartamento"
+              name="apartamento" required>
+            <div *ngIf="usuarioForm.controls['apartamento']?.invalid && usuarioForm.controls['apartamento']?.touched"
+              class="text-danger">
+              El apartamento es obligatorio.
+            </div>
+          </div>
+
+          <!-- Correo -->
+          <div class="col-12">
+            <label for="correo" class="form-label">Correo Electrónico</label>
+            <input type="email" id="correo" class="form-control" [(ngModel)]="usuarios.email" name="correo" required>
+            <div *ngIf="usuarioForm.controls['correo']?.invalid && usuarioForm.controls['correo']?.touched"
+              class="text-danger">
+              Correo Electrónico es obligatorio.
+            </div>
+          </div>
+
+          <!-- Contraseña -->
+          <div class="col-12">
+            <label for="password" class="form-label">Nueva contraseña</label>
+            <input type="password" id="password" class="form-control" [(ngModel)]="usuarios.password" name="password"
+              pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\[\]{};':\\|,.\/?]).{8,}$">
+            <div *ngIf="usuarioForm.controls['password']?.invalid && usuarioForm.controls['password']?.touched"
+              class="text-danger">
+              La contraseña debe tener al menos 8 caracteres, una letra mayúscula, un número y un carácter especial.
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col">
+              <button type="submit" class="btn btn-primary me-2 w-100 w-md-auto" [disabled]="usuarioForm.invalid">Editar
+                usuario</button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-secondary w-100 w-md-auto" (click)="volver()">Volver</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

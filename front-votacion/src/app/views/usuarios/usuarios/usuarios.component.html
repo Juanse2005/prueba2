@@ -1,0 +1,77 @@
+<!-- Vista inicial del superadmin -->
+<app-animation></app-animation>
+<app-nav></app-nav>
+<div class="container py-3">
+    <div class="abs-center">
+        <div class="card shadow border-0">
+            <div class="card-body">
+                <h2 class="text-center fs-2 text-primary mb-4 ">Residentes del conjunto {{conjuntos}}</h2>
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+                    <div class="input-group w-auto">
+                        <input type="text" class="form-control" placeholder="Buscar usuario..."
+                            [(ngModel)]="searchUsuarios" (input)="onSearchTermChange()" />
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="material-icons">search</i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apartamento</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Rol</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ad of filteredUsuarios; let i = index; trackBy: trackById">
+                                <th scope="row">{{ (page - 1) * pageSize + (i + 1) }}</th>
+                                <td>{{ ad.nombre }}</td>
+                                <td>{{ ad.apartamento}}</td>
+                                <td>{{ ad.email }}</td>
+                                <td>{{ ad.tipo_rol}}</td>
+                                <td>{{ ad.estado }}</td>
+                                <td class="d-flex justify-content-center align-items-center">
+                                    <button class="btn btn-warning" (click)="editarUsuario(ad.id_usuario)"
+                                        style="font-size: 20px; margin-right: 5px;" title="Editar" [disabled]="ad.estado === 'Inactivo'">
+                                        <i class="material-icons align-middle"
+                                            style="font-size: 20px; margin-right: 5px;">edit</i>
+                                    </button>
+                                    <button class="btn"
+                                        [ngClass]="{'btn-success': ad.estado === 'Activo', 'btn-danger': ad.estado === 'Inactivo'}"
+                                        (click)="toggleEstado(ad)" [disabled]="ad.estado === 'Inactivo'">
+                                        <span *ngIf="ad.estado === 'Activo'" class="material-icons"
+                                            title="Activo">check</span>
+                                        <span *ngIf="ad.estado === 'Inactivo'" class="material-icons"
+                                            title="Inactivo">close</span>
+                                    </button>
+                                </td>
+
+                            </tr>
+                            <tr *ngIf="filteredUsuarios.length === 0">
+                                <td colspan="10" style="text-align: center">No se encontraron Usuarios.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Paginación y selector de elementos por página -->
+                <div class="d-flex align-items-center justify-content-start gap-3 p-2">
+                    <button type="button" class="btn btn-secondary" (click)="volver()">Volver</button>
+                    <ngb-pagination [collectionSize]="totalUsuarios" style="height: 40px;" [(page)]="page"
+                        [pageSize]="pageSize" (pageChange)="refreshUsuarios()">
+                    </ngb-pagination>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

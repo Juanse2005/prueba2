@@ -1,0 +1,98 @@
+<app-nav></app-nav>
+<div class="container">
+  <div class="abs-center">
+    <div class="card shadow border-0">
+      <div class="card-body">
+        <h2 class="text-center fs-2 text-primary mb-4 ">Crear Asamblea Para {{conjunto.nombre}}</h2>
+        <form (ngSubmit)="saveAsamblea()" #asambleaForm="ngForm">
+
+          <div class="row mb-4">
+            <div class="col">
+              <label for="assemblyName" class="form-label">Nombre de la Asamblea</label>
+              <input type="text" id="titulo" class="form-control" [(ngModel)]="asamblea.titulo" name="titulo" required
+                placeholder="Nombre asamblea" aria-describedby="addon-wrapping" required #tituloInput="ngModel">
+              <div *ngIf="tituloInput.invalid && tituloInput.touched" class="text-danger">
+                Nombre de la asamblea es obligatorio.
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col">
+              <label for="description" class="form-label">Descripción</label>
+              <textarea id="descripcion" class="form-control" [(ngModel)]="asamblea.descripcion" name="descripcion"
+                placeholder="Ingrese la descripción" required></textarea>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col">
+              <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+              <input type="datetime-local" id="fecha_inicio" class="form-control" [(ngModel)]="asamblea.fecha_inicio"
+                name="fecha_inicio" required>
+            </div>
+            <div class="col">
+              <label for="fecha_fin" class="form-label">Fecha de Fin</label>
+              <input type="datetime-local" id="fecha_fin" class="form-control" [(ngModel)]="asamblea.fecha_fin"
+                name="fecha_fin" required>
+            </div>
+
+            <div class="col">
+              <label class="form-label d-block" for="flexSwitchCheckReverse">Activar ubicación</label>
+              <div class="form-check form-switch d-inline-block">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse"
+                  [(ngModel)]="activarUbicacion" name="activarUbicacion" style="width: 4rem; height: 2rem;">
+              </div>
+            </div>
+
+            <div class="col">
+              <button type="button" class="btn btn-success w-100 mt-4 fixed-height" (click)="openFileDialog()">
+                Invitar a asamblea
+              </button>
+              <div *ngIf="selectedFileName" class="text-success ">
+                Archivo seleccionado: {{ selectedFileName }}
+              </div>
+              <div *ngIf="!selectedFileName && fileTouched || errorFile" class="text-danger">
+                Es obligatorio seleccionar un archivo
+                {{errorFile}}
+              </div>
+            </div>
+
+            <div class="col">
+              <button type="button" class="btn btn-primary w-100 mt-4 fixed-height" (click)="openInviteModal()">
+                Archivo de invitación
+              </button>
+            </div>
+          </div>
+
+          <div class="row mb-4" *ngIf="activarUbicacion">
+            <div class="col">
+              <label for="latitud" class="form-label">Latitud</label>
+              <input type="text" id="latitud" class="form-control" [(ngModel)]="asamblea.latitud" name="latitud"
+                placeholder="Ingrese la latitud">
+            </div>
+            <div class="col">
+              <label for="longitud" class="form-label">Longitud</label>
+              <input type="text" id="longitud" class="form-control" [(ngModel)]="asamblea.longitud" name="longitud"
+                placeholder="Ingrese la longitud">
+            </div>
+          </div>
+
+          <div class="row mt-3  ">
+            <div class="col">
+              <button type="submit" class="btn btn-primary me-2 w-100 w-md-auto " [disabled]="asambleaForm.invalid">
+                Crear Asamblea
+              </button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-secondary w-100 w-md-auto" (click)="volver()">
+                Volver
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

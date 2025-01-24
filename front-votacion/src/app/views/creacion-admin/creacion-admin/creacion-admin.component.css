@@ -1,0 +1,13 @@
+.abs-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+  }
+  .card{
+    min-width: 90vw;
+  }
+
+  .container{
+    padding: 1rem;
+}

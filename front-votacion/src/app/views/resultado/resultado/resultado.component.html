@@ -1,0 +1,68 @@
+<!-- Vista de resultado de encuesta -->
+<app-animation></app-animation>
+<app-nav></app-nav>
+
+<div class="container">
+    <div class="abs-center">
+        <div class="card card-primary shadow-lg border-0">
+            <div class="card-body">
+                <!-- Mostrar mensaje si no hay resultados -->
+                <div *ngIf="!reporteria || reporteria.length === 0" class="alert alert-danger mt-4">
+                    No hay resultados aún.
+                </div>
+
+                <!-- Mostrar el contenido cuando hay resultados -->
+                <div *ngIf="reporteria && reporteria.length > 0">
+                    <div id="resultadosCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div *ngFor="let reporte of reporteria; let i = index" class="carousel-item"
+                                [class.active]="i === 0">
+                                <h2 class="text-center fs-2 text-primary mb-4">{{ reporte.pregunta }}</h2>
+
+                                <!-- Gráfico -->
+                                <div class="d-flex justify-content-center">
+                                    <div class="chart-container"
+                                        style="position: relative; height: auto; width: 60%; max-width: 600px;">
+                                        <p-chart type="pie" [data]="reporte.data" [options]="chartOptions"></p-chart>
+                                    </div>
+                                </div>
+
+                                <!-- Lista con el total de votos -->
+                                <ul class="list-group mt-4">
+                                    <li *ngFor="let opcion of reporte.data.labels; let i = index"
+                                        class="list-group-item d-flex justify-content-between align-items-center rounded">
+                                        <span>{{ opcion }}</span>
+                                        <span class="badge bg-primary rounded-pill">{{ reporte.data.datasets[0].data[i]
+                                            }} votos</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#resultadosCarousel"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon rounded" aria-hidden="true"
+                                style="background-color : black; "></span>
+                            <span class="visually-hidden ">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#resultadosCarousel"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon rounded" aria-hidden="true"
+                                style="background-color: black;"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary w-100 w-md-auto" (click)="volver(currentRole)">
+                            Volver
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

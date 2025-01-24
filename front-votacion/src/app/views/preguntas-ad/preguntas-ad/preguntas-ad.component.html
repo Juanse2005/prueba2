@@ -1,0 +1,55 @@
+<!-- Vista de preguntas del administrador -->
+<app-animation></app-animation>
+<app-nav></app-nav>
+<div class="container py-3">
+    <div class="abs-center">
+        <div class="card shadow-lg border-0">
+            <div class="card-body">
+
+                <h2 class="text-center fs-2 text-primary mb-4 ">{{asamblea.titulo}}</h2>
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+                    <button class="btn btn-success" (click)="crearPregunta(id??0)"
+                        [disabled]="asamblea.estado === 'Inactivo'">
+                        <i class="material-icons align-middle me-1">add_circle</i> Crear pregunta</button>
+                </div>
+                <div *ngIf="preguntas.length === 0" class="alert alert-danger text-center">
+                    No hay preguntas creadas
+                </div>
+
+                <div *ngFor="let pregunta of preguntas; let i = index" class="row mb-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control mb-3" [placeholder]="pregunta.descripcion"
+                                        disabled />
+                                </div>
+
+                                <div class="col">
+                                    <button class="btn w-100" [ngClass]="{
+                            'btn-danger': pregunta.estado === 'Activo', 
+                            'btn-warning': pregunta.estado === 'Inactivo' 
+                          }" (click)="toggleEstado(pregunta)">
+                                        <span *ngIf="pregunta.estado === 'Activo'" title="Activo">
+                                            Cerrar pregunta </span>
+                                        <span *ngIf="pregunta.estado === 'Inactivo'" title="Inactivo">
+                                            Pregunta cerrada</span>
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-primary w-100" (click)="resultado(pregunta.id_pregunta)">Ver
+                                        resultados</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-secondary me-2" (click)="volver()">Volver</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

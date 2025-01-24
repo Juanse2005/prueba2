@@ -1,0 +1,87 @@
+<app-animation></app-animation>
+<app-nav></app-nav>
+<div class="container py-3">
+    <div class="abs-center">
+        <div class="card shadow border-0">
+            <div class="card-body">
+                <h2 class="text-center fs-2 text-primary mb-4 ">Conjuntos</h2>
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+                    <button type="button" class="btn btn-success mb-3" (click)="crearConjunto()">
+                        <i class="material-icons align-middle me-1">add_circle </i>
+                        Crear nuevo conjunto</button>
+                    <div class="input-group w-auto">
+                        <input type="text" class="form-control" placeholder="Buscar conjunto..."
+                            [(ngModel)]="searchConjunto" (input)="onSearchTermChange()" />
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="material-icons">search</i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Tipo documento</th>
+                                <th scope="col">Numero de documento</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Telefono</th>
+                                <th scope="col">Direccion</th>
+                                <th scope="col">Apartamentos</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ad of filteredConjuntos; let i = index; trackBy: trackById">
+                                <th scope="row">{{ (page - 1) * pageSize + (i + 1) }}</th>
+                                <td>{{ ad.id_tipo_documento }}</td>
+                                <td>{{ ad.nro_documento }}</td>
+                                <td>{{ ad.nombre }}</td>
+                                <td>{{ ad.correo }}</td>
+                                <td>{{ ad.telefono }}</td>
+                                <td>{{ ad.direccion }}</td>
+                                <td>{{ ad.cant_apartamentos }}</td>
+                                <td>{{ ad.estado }}</td>
+                                <td class="d-flex justify-content-start">
+                                    <button class="btn btn-warning" (click)="editarConjunto(ad.id_conjunto ?? 0)"
+                                        style="font-size: 20px; margin-right: 5px;" title="Editar"
+                                        [disabled]="ad.estado === 'Inactivo'">
+                                        <i class="material-icons align-middle"
+                                            style="font-size: 20px; margin-right: 5px;">edit</i>
+                                    </button>
+                                    <button class="btn" [ngClass]="{
+                                  'btn-success': ad.estado === 'Activo', 
+                                  'btn-danger': ad.estado === 'Inactivo' 
+                                }" (click)="toggleEstado(ad)" style="font-size: 20px; margin-right: 5px;"
+                                        [disabled]="ad.estado === 'Inactivo'">
+                                        <span *ngIf="ad.estado === 'Activo'" class="material-icons" title="Activo">
+                                            check</span>
+                                        <span *ngIf="ad.estado === 'Inactivo'" class="material-icons" title="Inactivo">
+                                            close</span>
+                                    </button>
+                                    <button class="btn btn-primary" (click)="VistaUsuarios(ad.id_conjunto ?? 0)"
+                                        title="Usuarios">
+                                        <i class="material-icons">group </i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="filteredConjuntos.length === 0">
+                                <td colspan="10" style="text-align: center">No se encontraron conjuntos.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="totalConjuntos" [(page)]="page" [pageSize]="pageSize"
+                        (pageChange)="refreshConjuntos()">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,14 @@
+.abs-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+}
+
+.card-primary {
+  min-width: 90vw;
+}
+
+.card-secondary{
+ padding: 0.5rem;
+}

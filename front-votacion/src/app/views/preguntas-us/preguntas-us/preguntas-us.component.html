@@ -1,0 +1,72 @@
+<app-nav></app-nav>
+<div class="container py-3">
+  <div class="abs-center">
+    <div class="card shadow border-0">
+      <div class="card-body">
+        <!-- Mostrar mensaje si no hay preguntas -->
+        <div *ngIf="!preguntas || preguntas.length === 0" class="alert alert-danger mt-4">
+          No hay preguntas disponibles.
+        </div>
+
+        <!-- Título de la Asamblea -->
+        <div id="id_asamblea" name="id_asamblea">
+          <h2 class="text-center fs-2 text-primary mb-4 ">{{ preguntas[0].titulo_asamblea || 'No se proporcionó un título' }}</h2>
+        </div>
+
+        <div class="accordion" id="accordionExample">
+          <form (ngSubmit)="votar(votoForm)" #votoForm="ngForm">
+            <div *ngFor="let pregunta of preguntas; let i = index" class="p-1">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button py-3" type="button" data-bs-toggle="collapse"
+                    [attr.data-bs-target]="'#collapse' + pregunta.id_pregunta"
+                    [attr.aria-controls]="'collapse' + pregunta.id_pregunta"
+                    [attr.aria-expanded]="i === 0 ? 'true' : 'false'">
+                    {{ pregunta.descripcion }}
+                  </button>
+                </h2>
+                <div [id]="'collapse' + pregunta.id_pregunta" class="accordion-collapse collapse"
+                  [ngClass]="{ show: i === preguntas.length - 1 }" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <h3 class="fs-5 mb-3">Opciones:</h3>
+                    <div *ngFor="let opcion of opciones[pregunta.id_pregunta]; let j = index">
+                      <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="opcion{{pregunta.id_pregunta}}"
+                          [value]="opcion.id_opcion" [id]="'opcion' + pregunta.id_pregunta + '_' + j"
+                          [(ngModel)]="opcionSeleccionada[pregunta.id_pregunta]"                           
+                          [disabled]="pregunta.estado !== 'Activo' || yaVoto[pregunta.id_pregunta]" required />
+                        <label class="form-check-label" [for]="'opcion' + pregunta.id_pregunta + '_' + j">
+                          {{ opcion.opcion }}
+                        </label>
+                      </div>
+                    </div>
+                    <div *ngIf="yaVoto[pregunta.id_pregunta]" class="alert alert-info mt-4">
+                      Ya respondiste esta pregunta
+                    </div>
+                    <div *ngIf="pregunta.estado !== 'Activo'" class="alert alert-danger "> 
+                      Pregunta cerrada.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center mt-4">
+          
+            <button type="submit" class="btn btn-success w-100 mb-2"  [disabled]="preguntas.length <= 0 || !votoForm.form.valid">
+              Votar
+            </button>
+            <button type="button" class="btn btn-primary w-100 mb-2" (click)="resultados()">
+              Ver resultados
+            </button>   
+              <button type="button" class="btn btn-secondary w-100" (click)="volver(currentRole)">
+                Volver
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

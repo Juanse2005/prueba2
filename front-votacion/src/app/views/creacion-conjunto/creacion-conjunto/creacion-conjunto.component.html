@@ -1,0 +1,96 @@
+<app-nav></app-nav>
+<div class="container py-3">
+  <div class="abs-center">
+    <div class="card shadow border-0">
+      <div class="card-body">
+        <h2 class="text-center fs-2 text-primary mb-4">{{titulo}}</h2>
+        <form class="row g-3" #conjuntoForm="ngForm" (ngSubmit)="saveConjunto(conjuntoForm)">
+          <!-- Tipo de doc  -->
+          <div class="col-md-6">
+            <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+            <select id="tipoDocumento" class="form-select" name="id_tipo_documento"
+              [(ngModel)]="conjunto.id_tipo_documento" required #tipoDocumento="ngModel">
+              <option [value]="null" disabled selected>Seleccione un tipo de documento</option>
+              <option *ngFor="let doc of documentos" [value]="doc.tipo_documento">{{ doc.tipo_documento }}</option>
+            </select>
+            <div *ngIf="tipoDocumento.invalid && tipoDocumento.touched" class="text-danger">
+              El tipo de documento es obligatorio.
+            </div>
+          </div>
+
+          <!-- Número de doc -->
+          <div class="col-md-6">
+            <label for="nroDocumento" class="form-label">Número de Documento</label>
+            <input type="number" id="nroDocumento" class="form-control" [(ngModel)]="conjunto.nro_documento"
+              name="nroDocumento" required>
+            <div
+              *ngIf="conjuntoForm.controls['nroDocumento']?.invalid && conjuntoForm.controls['nroDocumento']?.touched"
+              class="text-danger">
+              Número de Documento es obligatorio.
+            </div>
+          </div>
+          <!-- Nombre -->
+          <div class="col-12">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" id="nombre" class="form-control" [(ngModel)]="conjunto.nombre" name="nombre" required>
+            <div *ngIf="conjuntoForm.controls['nombre']?.invalid && conjuntoForm.controls['nombre']?.touched"
+              class="text-danger">
+              Nombre es obligatorio.
+            </div>
+          </div>
+          <!-- Correo -->
+          <div class="col-12">
+            <label for="correo" class="form-label">Correo Electrónico</label>
+            <input type="email" id="correo" class="form-control" [(ngModel)]="conjunto.correo" name="correo" required>
+            <div *ngIf="conjuntoForm.controls['correo']?.invalid && conjuntoForm.controls['correo']?.touched"
+              class="text-danger">
+              Correo Electrónico es obligatorio.
+            </div>
+          </div>
+          <!-- Telefono -->
+          <div class="col-md-6">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="number" id="telefono" class="form-control" [(ngModel)]="conjunto.telefono" name="telefono"
+              required>
+            <div *ngIf="conjuntoForm.controls['telefono']?.invalid && conjuntoForm.controls['telefono']?.touched"
+              class="text-danger">
+              Teléfono es obligatorio.
+            </div>
+          </div>
+          <!-- Direccion -->
+          <div class="col-md-6">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" id="direccion" class="form-control" [(ngModel)]="conjunto.direccion" name="direccion"
+              required>
+            <div *ngIf="conjuntoForm.controls['direccion']?.invalid && conjuntoForm.controls['direccion']?.touched"
+              class="text-danger">
+              Dirección es obligatoria.
+            </div>
+          </div>
+          <!-- Cantidad de apartamentos -->
+          <div class="col-12">
+            <label for="cantApartamentos" class="form-label">Cantidad de Apartamentos</label>
+            <input type="number" id="cantApartamentos" class="form-control" [(ngModel)]="conjunto.cant_apartamentos"
+              name="cantApartamentos" required>
+            <div
+              *ngIf="conjuntoForm.controls['cantApartamentos']?.invalid && conjuntoForm.controls['cantApartamentos']?.touched"
+              class="text-danger">
+              Cantidad de Apartamentos es obligatoria.
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col">
+              <button type="submit" class="btn btn-primary me-2 w-100 w-md-auto"
+                [disabled]="conjuntoForm.invalid">{{titulo}}</button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-secondary w-100 w-md-auto" (click)="volver()">Volver</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

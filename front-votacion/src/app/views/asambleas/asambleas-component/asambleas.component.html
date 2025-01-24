@@ -1,0 +1,107 @@
+<!-- Vista inicial para los administradores -->
+<app-animation></app-animation>
+<app-nav></app-nav>
+<div class="container py-3">
+  <div class="abs-center">
+    <div class="card card-primary shadow border-0">
+      <div class="card-body">
+        <h2 class="text-center fs-2 text-primary mb-4 ">Asambleas</h2>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+          <button type="button" class="btn btn-success mb-3" (click)="crearAsamblea()">
+            <i class="material-icons align-middle me-1">add_circle</i> Crear nueva asamblea
+          </button>
+          <div class="input-group w-auto mb-2">
+            <select id="idconjunto" class="form-select" name="id_conjunto" [(ngModel)]="selectedConjuntoId"
+              (change)="onConjuntoChange($event)" required>
+              <option [value]="null" disabled selected>Seleccione un conjunto</option>
+              <option *ngFor="let option of adminConjuntos" [value]="option.id_conjunto">
+                {{ option.nombre_conjunto }}
+              </option>
+              <option *ngIf="adminConjuntos.length === 0" disabled>No se encontraron conjuntos.</option>
+            </select>
+
+          </div>
+
+          <div class="input-group w-auto">
+            <input type="text" class="form-control" placeholder="Buscar asamblea..." [(ngModel)]="searchAdmin"
+              (input)="onSearchTermChange()" />
+            <span class="input-group-text" id="basic-addon1">
+              <i class="material-icons">search</i>
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-3 card card-secondary rounded-3 shadow-sm "
+          *ngFor="let ad of filteredAsambleas; let i = index; trackBy: trackById">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-8">
+              <h5 class="text-primary fw-bold">{{ ad.titulo }}</h5>
+              <p class="mb-1 text-muted">
+                Fecha inicio: <span class="fw-semibold">{{ ad.fecha_inicio | date:'dd-MM-yyyy' }}</span> <br>
+                Hora inicio: <span class="fw-semibold">{{ ad.fecha_inicio | date:'hh:mm a' }}</span> <br>
+                Fecha fin: <span class="fw-semibold">{{ ad.fecha_fin | date:'dd-MM-yyyy' }}</span> <br>
+                Hora fin: <span class="fw-semibold">{{ ad.fecha_fin | date:'hh:mm a' }}</span>
+              </p>
+            </div>
+
+            <div class="col-12 col-md-4 d-flex flex-column gap-2">
+              <!-- Botón de iniciar asamblea -->
+              <button type="button" class="btn btn-primary w-100 d-flex align-items-center justify-content-center"
+                [disabled]="!estaDentroDelRango(ad.fecha_inicio, ad.fecha_fin) || ad.estado !== 'Activo'"
+                (click)="iniciarAsamblea(ad.id_asamblea)" aria-label="Iniciar asamblea">
+                <i class="material-icons align-middle me-1">arrow_right_alt</i>
+                Iniciar asamblea
+              </button>
+
+              <!-- Botón de editar preguntas -->
+              <button class="btn btn-warning d-flex align-items-center justify-content-center"
+                (click)="editarPreguntas(ad.id_asamblea)" title="Editar preguntas" aria-label="Editar preguntas">
+                <i class="material-icons align-middle me-2">edit</i>
+                Preguntas
+              </button>
+
+              <!-- Botón de cerrar asamblea -->
+              <button class="btn btn-danger" data-bs-toggle="modal" [attr.data-bs-target]="'#modalConjuntos' + i"
+                [disabled]="ad.estado === 'Inactivo'">
+                <i class="material-icons align-middle">close</i>
+                Cerrar Asamblea
+              </button>
+              <div class="modal fade" [id]="'modalConjuntos' + i" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                      <h5 class="modal-title">Cerrar asamblea</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <h6>¿Esta seguro que desea cerrar la asamblea: {{ad.titulo}}?</h6>
+                      <ng-template #noConjuntos>
+                        <p>No hay conjuntos asignados.</p>
+                      </ng-template>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                        (click)="toggleEstado(ad)">Si, cerrar asamblea</button>
+
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div *ngIf="filteredAsambleas.length === 0" class="text-center text-muted mt-3">
+          No se encontraron asambleas.
+        </div>
+      </div>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="totalAsambleas" [(page)]="page" [pageSize]="pageSize"
+          (pageChange)="getAll(selectedConjuntoId)">
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

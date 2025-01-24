@@ -1,0 +1,42 @@
+<app-nav></app-nav>
+<div class="container py-3">
+  <div class="abs-center">
+    <div class="card shadow-lg border-0">
+      <div class="card-body row g-3">
+        <h2 class="text-center fs-2 text-primary mb-4 ">Crear Nueva Pregunta</h2>
+
+        <!-- Descripción -->
+        <div class="mb-4">
+          <label for="descripcion" class="form-label">Descripción</label>
+          <textarea id="descripcion" class="form-control" [(ngModel)]="descripcion" rows="3"
+            placeholder="Escribe la descripción de la pregunta aquí..."></textarea>
+          <div class="text-danger mt-1" *ngIf="descripcion.trim() === '' && descripcion.length > 0">
+            La descripción es obligatoria.
+          </div>
+        </div>
+
+        <!-- Opciones dinámicas -->
+        <div class="mb-3">
+          <label for="opciones" class="form-label">Opciones</label>
+          <div *ngFor="let opcion of opciones; let i = index" class="input-group mb-2">
+            <input type="text" class="form-control" [(ngModel)]="opcion.opcion"
+              placeholder="Escribe la opción {{ i + 1 }}" />
+            <button *ngIf="opciones.length > 2" class="btn btn-danger" type="button" (click)="quitarOpcion(i)">
+              -
+            </button>
+            <button *ngIf="i === opciones.length - 1" class="btn btn-primary" type="button" (click)="agregarOpcion()">
+              +
+            </button>
+          </div>
+        </div>
+
+        <!-- Botón de enviar -->
+        <button class="btn btn-success w-100 mt-3" [disabled]="!esFormularioValido()" (click)="enviarFormulario()">
+          Crear Pregunta
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="volver()">Volver</button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
