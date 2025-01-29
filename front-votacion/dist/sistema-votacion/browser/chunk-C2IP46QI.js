@@ -1,0 +1,1 @@
+import{b as s}from"./chunk-ZLLD3L34.js";import{Ia as o,k as e,m as n,na as a}from"./chunk-ZHU3U647.js";var u=(()=>{let t=class t extends s{constructor(i){super(i,o.apiURL),this.http=i,this.apiurl=o.apiURL}};t.\u0275fac=function(c){return new(c||t)(n(a))},t.\u0275prov=e({token:t,factory:t.\u0275fac,providedIn:"root"});let r=t;return r})();export{u as a};
